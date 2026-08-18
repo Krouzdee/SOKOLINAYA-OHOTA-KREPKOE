@@ -33,7 +33,6 @@ def find_markers(current_marker_id, frame):
     if frame is None:
         return None, None
 
-    frame = cv2.flip(frame, 1)
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
@@ -86,6 +85,9 @@ current_id = 0
 
 while True:
     frame_raw = tello.get_frame_read().frame
+    if frame_raw is None:
+        continue
+    frame_raw = cv2.flip(frame_raw, 1)
     frame, pose = find_markers(current_id, frame_raw)
     if pose is not None:
         x, y, z = pose
